@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  topics: {},
-  quizzes: {},
-  cards: {},
+  topics: {}
 };
 
 const topicsSlice = createSlice({
