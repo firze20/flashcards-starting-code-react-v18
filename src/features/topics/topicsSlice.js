@@ -20,7 +20,7 @@ const topicsSlice = createSlice({
     addQuizId: (state, action) => {
       const { id, topicId } = action.payload;
       state.topics[topicId] = {
-        ...state.topics[topicId],
+        ...state.topics[topicId], //remain the rest of the state 
         quizIds: [...state.topics[topicId].quizIds, id]
       };
     },

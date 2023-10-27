@@ -6,6 +6,7 @@ import ROUTES from "../app/routes";
 // import selectors
 import { addQuiz } from "../features/quizzes/quizzesSlice";
 import { addQuizId } from "../features/topics/topicsSlice";
+import { addCards } from "../features/cards/cardSlice";
 import { selectAllTopics } from "../features/topics/topicsSlice";
 
 export default function NewQuizForm() {
@@ -25,33 +26,39 @@ export default function NewQuizForm() {
     const cardIds = [];
 
     // create the new cards here and add each card's id to cardIds
-    cards.forEach(card => cardIds.push(card)); 
+    cards.forEach(card => cardIds.push
+      (
+        card.id
+    )); 
+    
+    
+    const cardsToDispatch = cards.map(card => (
+      {
+        id: card.id,
+        front: card.front,
+        back: card.back
+      }
+    ));
 
-     const quizId = uuidv4();
+    console.log(cardsToDispatch);
+
+    const quizId = uuidv4();
     // create the new quiz here
 
-    const newQuizz = {
-      id: quizId,
-      name,
-      topicId,
-      cardIds
-    };
-
-    console.log(newQuizz);
-
-
     // dispatch add quiz action 
-
     dispatch(addQuiz({ id: quizId, name, topicId, cardIds }))
+    // dispatch add quizId to Topic
+    dispatch(addQuizId({ id: quizId, topicId }))
 
-    dispatch(addQuizId({ id: quizId, topicId}))
+    dispatch(addCards(cardsToDispatch));
 
     navigate(ROUTES.quizzesRoute())
   };
 
   const addCardInputs = (e) => {
     e.preventDefault();
-    setCards(cards.concat({ front: "", back: "" }));
+    const cardId = uuidv4();
+    setCards(cards.concat({ id: cardId, front: "", back: "" }));
   };
 
   const removeCard = (e, index) => {
